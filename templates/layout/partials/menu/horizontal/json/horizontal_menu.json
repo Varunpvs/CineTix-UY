@@ -1,0 +1,89 @@
+{
+  "menu": [
+    {
+      "name": "Dashboards",
+      "icon": "menu-icon tf-icons ri-home-smile-line",
+      "slug": "dashboard",
+      "submenu": [
+        {
+          "url": "dashboard-crm",
+          "name": "CRM",
+          "icon": "menu-icon tf-icons ri-computer-line",
+          "slug": "dashboard-crm"
+        },
+        {
+          "url": "index",
+          "name": "Analytics",
+          "icon": "menu-icon tf-icons ri-bar-chart-line",
+          "slug": "dashboard-analytics"
+        },
+        {
+          "url": "/app/ecommerce/dashboard",
+          "external": true,
+          "name": "eCommerce",
+          "icon": "menu-icon tf-icons ri-shopping-cart-2-line",
+          "slug": "app-ecommerce-dashboard"
+        },
+        {
+          "url": "/app/logistics/dashboard",
+          "external": true,
+          "name": "Logistics",
+          "icon": "menu-icon tf-icons ri-truck-line",
+          "slug": "app-logistics-dashboard"
+        },
+        {
+          "url": "/app/academy/dashboard",
+          "external": true,
+          "name": "Academy",
+          "icon": "menu-icon tf-icons ri-book-open-line",
+          "slug": "app-academy-dashboard"
+        }
+      ]
+    },
+    {
+      "name": "Layouts",
+      "icon": "menu-icon tf-icons ri-layout-2-line",
+      "slug": "layouts",
+      "submenu": [
+        {
+          "url": "layouts-without-menu",
+          "name": "Without menu",
+          "icon": "menu-icon tf-icons ri-layout-4-line",
+          "slug": "layouts-without-menu"
+        },
+        {
+          "url": "layouts-content-navbar",
+          "name": "Vertical",
+          "icon": "menu-icon tf-icons ri-layout-left-line",
+          "slug": "layouts-content-navbar",
+          "target": "_blank"
+        },
+        {
+          "url": "layouts-horizontal",
+          "name": "Horizontal",
+          "icon": "menu-icon tf-icons ri-layout-top-line",
+          "slug": "layouts-horizontal"
+        },
+        {
+          "url": "layouts-fluid",
+          "name": "Fluid",
+          "icon": "menu-icon tf-icons ri-layout-top-line",
+          "slug": "layouts-fluid"
+        },
+        {
+          "url": "layouts-container",
+          "name": "Container",
+          "icon": "menu-icon tf-icons ri-layout-top-2-line",
+          "slug": "layouts-container"
+        },
+        {
+          "url": "layouts-blank",
+          "name": "Blank",
+          "icon": "menu-icon tf-icons ri-square-line",
+          "slug": "layouts-blank",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{% load i18n %}
+{% load static %}
+
+{% if navbar_detached  %}
+<nav class="layout-navbar {{container_class}} navbar navbar-expand-xl {{navbar_detached_class}} align-items-center bg-navbar-theme"
+     id="layout-navbar">
+    {% endif %}
+
+    {# Horizontal layout (navbar not detached) #}
+
+    {% if not navbar_detached %}
+    <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
+        <div class="{{container_class}}">
+            {% endif %}
+            <!--  Brand demo (display only for navbar-full and hide on below xl) -->
+            {% if navbar_full %}
+            <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-6">
+                <a href="{% url 'index' %}" class="app-brand-link gap-2">
+          <span class="app-brand-logo demo">
+            {% include 'partials/logo.html' %}
+          </span>
+                    <span class="app-brand-text demo menu-text fw-semibold ms-1">{% get_theme_variables 'template_name' %}</span>
+                </a>
+
+                {% if menu_horizontal %}
+                <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+                    <i class="ri-close-fill align-middle"></i>
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- ! Not required for layout-without-menu -->
+            {% if not navbar_hide_toggle %}
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 {{ menu_horizontal|yesno:'d-xl-none,' }} {{ content_navbar|yesno:'d-xl-none,' }}">
+                <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                    <i class="ri-menu-fill ri-24px"></i>
+                </a>
+            </div>
+            {% endif %}
+
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+                    {% if has_customizer %}
+                    <!-- Style Switcher -->
+                    <li class="nav-item dropdown-style-switcher dropdown">
+                        <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                           href="javascript:void(0);" data-bs-toggle="dropdown">
+                            <i class='ri-22px'></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                            <li>
+                                <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                                    <span class="align-middle"><i class='ri-sun-line ri-22px me-3'></i>Light</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                                    <span class="align-middle"><i
+                                            class="ri-moon-clear-line ri-22px me-3"></i>Dark</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                                    <span class="align-middle"><i
+                                            class="ri-computer-line ri-22px me-3"></i>System</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- / Style Switcher-->
+                    {% endif %}
+
+                    <!-- User -->
+                    <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                        <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);"
+                           data-bs-toggle="dropdown">
+                            <div class="avatar avatar-online">
+
+                                <img src="{% static 'img/blank_dp.jpg' %}" alt class="w-px-40 h-auto rounded-circle">
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'pages-account-settings-account' %}">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 me-2">
+                                            <div class="avatar avatar-online">
+                                                <img src="{% static 'img/blank_dp.jpg' %}" alt
+                                                     class="w-px-40 h-auto rounded-circle">
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0 small">{{ request.user.username| capfirst }}</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="dropdown-divider"></div>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'pages-account-settings-account' %}">
+                                    <i class="ri-settings-4-line ri-22px me-2"></i>
+                                    <span class="align-middle">Settings</span>
+                                </a>
+                            </li>
+                            <li></li>
+                                <a class="dropdown-item" href="{% url 'pages-account-settings-account' %}">
+                                    <i class="ri-lock-password-fill ri-22px me-2"></i>
+                                    <span class="align-middle">Change Password</span>
+                                </a>
+                            </li>
+                            <li>
+                                <div class="dropdown-divider my-1"></div>
+                            </li>
+                            <li>
+                                {% if request.user.is_authenticated %}
+                                <form action="{% url 'logout' %}" method="post" class="d-grid px-4 pt-2 pb-1">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger d-flex">
+                                        <small class="align-middle">Logout</small>
+                                        <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
+                                    </button>
+                                </form>
+                                {% else %}
+                                <a class="dropdown-item d-flex justify-content-between align-content-center"
+                                   href="/login">
+                                </a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/ User -->
+                </ul>
+            </div>
+
+            <!-- Search Small Screens -->
+            <div class="navbar-search-wrapper search-input-wrapper {% if menu_horizontal %}{{container_class}}{% endif %} d-none">
+                <input type="text"
+                       class="form-control search-input {% if not menu_horizontal %}{{container_class}}{% endif %} border-0"
+                       placeholder="Search..." aria-label="Search...">
+                <i class="ri-close-fill search-toggler cursor-pointer"></i>
+            </div>
+            {% if not navbar_detached %}
+        </div>
+    </nav>
+    {% endif %}
+    {% if navbar_detached %}
+</nav>
+{% endif %}

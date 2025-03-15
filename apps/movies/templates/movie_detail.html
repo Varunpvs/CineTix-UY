@@ -1,0 +1,67 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Movie Details - App{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/plyr/plyr.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/plyr/plyr.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/app-movie-details.css' %}" />
+{% endblock page_css %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/app-movie-details.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+<div class="g-3">
+  <div class="row g-6">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center flex-wrap mb-6 gap-1">
+            <div class="me-1">
+              <h5 class="mb-0">{{ movie.title }}</h5>
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="badge bg-label-primary rounded-pill">{{ movie.genre }}</span>
+            </div>
+          </div>
+          <div class="card movie-content shadow-none border">
+            <div class="card-body pt-3">
+              <div class="rounded-2 text-center mb-3">
+                            <img class="img-fluid"
+                                 src="{{ poll.movie.poster_url|default:'/static/img/static_movie_poster.jpg' }}"
+                                 alt="{{ poll.movie.title }}">
+                        </div>
+              <h5>About this movie</h5>
+              <p class="mb-0">{{ movie.description }}</p>
+              <hr class="my-6">
+              <h5>Movie Details</h5>
+              <div class="d-flex flex-wrap row-gap-2">
+                <div class="me-12">
+                  <p class="text-nowrap mb-2"><i class='ri-calendar-line ri-20px me-2'></i>Planned Release Date: {{ movie.release_date }}</p>
+                  <p class="text-nowrap mb-2"><i class='ri-global-line ri-20px me-2'></i>Language: {{ movie.language }}</p>
+                  <p class="text-nowrap mb-0"><i class='ri-pages-line ri-20px me-2'></i>Duration: {{ movie.duration }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

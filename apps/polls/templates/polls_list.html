@@ -1,0 +1,109 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Academy - My Courses - App{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}"/>
+<link rel="stylesheet" href="{% static 'vendor/libs/plyr/plyr.css' %}"/>
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/select2/select2.js' %}"></script>
+<script src="{% static 'vendor/libs/plyr/plyr.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/app-academy.css' %}"/>
+{% endblock page_css %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/app-academy-course.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+<div class="app-academy">
+
+    <div class="card mb-6">
+        <div class="card-header d-flex flex-wrap justify-content-between gap-4">
+            <div class="card-title mb-0 me-1">
+                <h5 class="mb-0">Polls</h5>
+                <p class="mb-0">{{ polls.length }} polls</p>
+            </div>
+        </div>
+        <div class="card-body mt-1">
+            <div class="row gy-6 mb-6">
+                {% for poll in polls %}
+                <div class="col-sm-6 col-lg-4">
+                    <div class="card shadow-none border p-2 h-100">
+                        <div class="rounded-2 text-center mb-3">
+                            <img class="img-fluid"
+                                 src="{{ poll.movie.poster_url|default:'/static/img/static_movie_poster.jpg' }}"
+                                 alt="{{ poll.movie.title }}">
+                        </div>
+                        <div class="card-body p-4 pt-2">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <span class="badge rounded-pill bg-label-danger">{{ poll.movie.genre }}</span>
+                                <p class="fw-medium mb-0">{{ poll.movie.rating|default:"N/A" }}</p>
+                            </div>
+
+                            <p class="h5">{{ poll.movie.title }}</p>
+                            <p class="mt-1">{{ poll.movie.description|truncatechars:100 }}</p>
+                            <p class="d-flex align-items-center mb-4">
+                                <i class="ri-time-line ri-20px me-1"></i>{{ poll.movie.duration }} min
+                            </p>
+
+                            <!-- ✅ Progress Bar Fixed -->
+                            <div class="progress rounded-pill mb-4" style="height: 8px">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                     style="width: {{ poll.progress_percent }}%;"
+                                     aria-valuenow="{{ poll.yes_votes }}" aria-valuemin="0"
+                                     aria-valuemax="{{ poll.threshold }}">
+                                </div>
+                            </div>
+
+                            {% if poll.has_voted %}
+                            <!-- If user has already voted -->
+                            <p class="text-center text-success">You have already voted for this movie!</p>
+
+                            <!-- Remove Vote Button -->
+                            <form action="{% url 'remove-vote' poll.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="w-100 btn btn-outline-danger d-flex align-items-center">
+                                    <span class="me-1_5">Remove Vote</span><i
+                                        class="ri-thumb-down-line ri-16px lh-1"></i>
+                                </button>
+                            </form>
+                            {% else %}
+                            <!-- Vote Button -->
+                            <form action="{% url 'poll-vote' poll.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="w-100 btn btn-outline-success d-flex align-items-center">
+                                    <span class="me-1_5">Vote Now</span><i class="ri-thumb-up-line ri-16px lh-1"></i>
+                                </button>
+                            </form>
+                            {% endif %}
+
+                            <!-- Book Now Button (Enabled if poll is approved) -->
+                            <a class="w-100 btn {% if poll.decision %}btn-outline-primary{% else %}btn-outline-secondary disabled{% endif %} d-flex align-items-center mt-2"
+                               href="{% if poll.decision %}{% url 'movie-detail' poll.movie.id %}{% else %}#{% endif %}">
+                                <span class="me-1_5">Book Now</span><i class="ri-arrow-right-line ri-16px lh-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

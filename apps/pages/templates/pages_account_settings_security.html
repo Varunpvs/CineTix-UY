@@ -1,0 +1,100 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Account settings - Security{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/select2/select2.css' %}" />
+<link rel="stylesheet" href="{% static 'vendor/libs/@form-validation/form-validation.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/select2/select2.js' %}"></script>
+<script src="{% static 'vendor/libs/@form-validation/popular.js' %}"></script>
+<script src="{% static 'vendor/libs/@form-validation/bootstrap5.js' %}"></script>
+<script src="{% static 'vendor/libs/@form-validation/auto-focus.js' %}"></script>
+<script src="{% static 'vendor/libs/cleavejs/cleave.js' %}"></script>
+<script src="{% static 'vendor/libs/cleavejs/cleave-phone.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/page-account-settings.css' %}" />
+{% endblock page_css %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/pages-account-settings-security.js' %}"></script>
+<script src="{% static 'js/modal-enable-otp.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="nav-align-top">
+      <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
+        <li class="nav-item"><a class="nav-link" href="{% url 'pages-account-settings-account' %}"><i class="ri-group-line me-1_5"></i> Account</a></li>
+        <li class="nav-item"><a class="nav-link active" href="javascript:void(0);"><i class="ri-lock-line me-1_5"></i> Password Settings</a></li>
+      </ul>
+    </div>
+    <!-- Change Password -->
+    <div class="card mb-6">
+      <h5 class="card-header">Change Password</h5>
+      <div class="card-body pt-1">
+        <form id="formAccountSettings" method="POST" onsubmit="return false">
+          <div class="row">
+            <div class="mb-5 col-md-6 form-password-toggle">
+              <div class="input-group input-group-merge">
+                <div class="form-floating form-floating-outline">
+                  <input class="form-control" type="password" name="currentPassword" id="currentPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                  <label for="currentPassword">Current Password</label>
+                </div>
+                <span class="input-group-text cursor-pointer"><i class="ri-eye-off-line ri-20px"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="row g-5 mb-6">
+            <div class="col-md-6 form-password-toggle">
+              <div class="input-group input-group-merge">
+                <div class="form-floating form-floating-outline">
+                  <input class="form-control" type="password" id="newPassword" name="newPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                  <label for="newPassword">New Password</label>
+                </div>
+                <span class="input-group-text cursor-pointer"><i class="ri-eye-off-line ri-20px"></i></span>
+              </div>
+            </div>
+            <div class="col-md-6 form-password-toggle">
+              <div class="input-group input-group-merge">
+                <div class="form-floating form-floating-outline">
+                  <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                  <label for="confirmPassword">Confirm New Password</label>
+                </div>
+                <span class="input-group-text cursor-pointer"><i class="ri-eye-off-line ri-20px"></i></span>
+              </div>
+            </div>
+          </div>
+          <h6 class="text-body">Password Requirements:</h6>
+          <ul class="ps-4 mb-0">
+            <li class="mb-4">Minimum 8 characters long - the more, the better</li>
+            <li class="mb-4">At least one lowercase character</li>
+            <li>At least one number, symbol, or whitespace character</li>
+          </ul>
+          <div class="mt-6">
+            <button type="submit" class="btn btn-primary me-3">Save changes</button>
+            <button type="reset" class="btn btn-outline-secondary">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--/ Change Password -->
+
+
+
+
+  </div>
+</div>
+{% endblock %}

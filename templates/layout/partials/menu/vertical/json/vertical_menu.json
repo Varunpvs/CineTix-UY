@@ -1,0 +1,47 @@
+{
+  "menu": [
+    {
+      "url":"dashboard-crm",
+      "name": "Home",
+      "icon": "menu-icon tf-icons ri-home-2-fill",
+      "slug": "movies"
+    },
+    {
+      "menu_header": "Cinema"
+    },
+    {
+      "url": "movies-list",
+      "name": "Movies",
+      "icon": "menu-icon tf-icons ri-movie-fill",
+      "slug": "movies"
+    },
+
+    {
+      "url": "polls-list",
+      "name": "Polls",
+      "icon": "menu-icon tf-icons ri-chat-poll-fill",
+      "slug": "movies"
+    },
+    {
+      "menu_header": "My Account"
+    },
+    {
+      "url": "user-bookings",
+      "name": "Bookings",
+      "icon": "menu-icon tf-icons ri-book-read-fill",
+      "slug": "app-email"
+    },
+    {
+      "url": "pages-account-settings-account",
+      "name": "Account Settings",
+      "icon": "menu-icon tf-icons ri-settings-2-fill",
+      "slug": "app-chat"
+    },
+    {
+      "url": "pages-account-settings-security",
+      "name": "Password Settings",
+      "icon": "menu-icon tf-icons ri-lock-password-fill",
+      "slug": "app-email"
+    }
+  ]
+}

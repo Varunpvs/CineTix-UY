@@ -1,0 +1,74 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Movie Details - App{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/plyr/plyr.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/plyr/plyr.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/app-movie-details.css' %}" />
+{% endblock page_css %}
+
+{% block page_js %}
+{{ block.super }}
+{% endblock page_js %}
+
+{% block content %}
+<div class="card">
+  <h5 class="card-header">My Bookings</h5>
+  <div class="table-responsive text-nowrap">
+       {% if bookings %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Theater</th>
+                <th>Screen</th>
+                <th>Seats</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.movie.title }}</td>
+                <td>{{ booking.screen.theater.name }}</td>
+                <td>{{ booking.screen.name }}</td>
+                <td>{{ booking.seat_number|join:", " }}</td>
+                <td>
+                    {% if booking.status == "canceled" %}
+                        <span class="badge bg-danger">Canceled</span>
+                    {% else %}
+                        <span class="badge bg-success">Confirmed</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if booking.status != "canceled" %}
+                    <form method="POST" action="{% url 'cancel-booking' booking.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You have no bookings yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

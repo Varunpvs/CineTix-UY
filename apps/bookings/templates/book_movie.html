@@ -1,0 +1,139 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}Movie Details - App{% endblock %}
+
+{% block vendor_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/libs/plyr/plyr.css' %}" />
+{% endblock vendor_css %}
+
+{% block vendor_js %}
+{{ block.super }}
+<script src="{% static 'vendor/libs/plyr/plyr.js' %}"></script>
+{% endblock vendor_js %}
+
+{% block page_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'vendor/css/pages/app-movie-details.css' %}" />
+{% endblock page_css %}
+
+{% block page_js %}
+{{ block.super }}
+<script src="{% static 'js/app-movie-details.js' %}"></script>
+{% endblock page_js %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Book Tickets for {{ movie.title }}</h2>
+
+    <div class="mb-3">
+        <p><strong>Theater:</strong> {{ screen.theater.name }}</p>
+        <p><strong>Screen:</strong> {{ screen.name }}</p>
+    </div>
+
+    <div class="seat-container">
+        <div class="screen-label">SCREEN</div>
+        <div id="seat-map" class="seat-grid"></div>
+        <p class="mt-3"><strong>Selected Seats:</strong> <span id="selected-seats">None</span></p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="selected_seats" id="selected-seats-input">
+        <button type="submit" class="btn btn-primary mt-3" id="book-btn" disabled>Book Now</button>
+    </form>
+</div>
+
+<style>
+    .seat-container {
+        text-align: center;
+        margin: 20px auto;
+    }
+    .screen-label {
+        font-size: 1.2rem;
+        font-weight: bold;
+        background: #444;
+        color: white;
+        padding: 5px;
+        width: 60%;
+        margin: auto;
+        border-radius: 5px;
+    }
+    .seat-grid {
+        display: grid;
+        grid-template-columns: repeat({{ screen.total_columns }}, 40px);
+        gap: 5px;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: #ccc;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .seat:hover {
+        background-color: #77dd77;
+    }
+    .seat.selected {
+        background-color: #28a745 !important;
+        color: white;
+    }
+    .seat.booked {
+        background-color: #dc3545 !important;
+        color: white;
+        cursor: not-allowed;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const seatMap = document.getElementById("seat-map");
+        const selectedSeatsInput = document.getElementById("selected-seats-input");
+        const selectedSeatsDisplay = document.getElementById("selected-seats");
+        const bookBtn = document.getElementById("book-btn");
+
+        let selectedSeats = [];
+
+        // Seat layout from backend
+        const seatLayout = {{ seat_layout|safe }};
+
+        for (let row in seatLayout) {
+            for (let col in seatLayout[row]) {
+                let seat = document.createElement("div");
+                seat.classList.add("seat");
+                seat.innerText = row + col;
+
+                if (!seatLayout[row][col]) {
+                    seat.classList.add("booked");
+                } else {
+                    seat.addEventListener("click", function () {
+                        if (seat.classList.contains("selected")) {
+                            seat.classList.remove("selected");
+                            selectedSeats = selectedSeats.filter(s => s !== row + "-" + col);
+                        } else {
+                            seat.classList.add("selected");
+                            selectedSeats.push(row + "-" + col);
+                        }
+
+                        selectedSeatsDisplay.innerText = selectedSeats.length > 0 ? selectedSeats.join(", ") : "None";
+                        selectedSeatsInput.value = selectedSeats.join(",");
+                        bookBtn.disabled = selectedSeats.length === 0;
+                    });
+                }
+
+                seatMap.appendChild(seat);
+            }
+        }
+    });
+</script>
+
+{% endblock content %}
