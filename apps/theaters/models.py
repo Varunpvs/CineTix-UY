@@ -7,6 +7,8 @@ class Theater(models.Model):
     def __str__(self):
         return self.name
 
+from django.db import models
+
 class Screen(models.Model):
     theater = models.ForeignKey(
         Theater, on_delete=models.CASCADE, null=True, blank=True
@@ -15,9 +17,6 @@ class Screen(models.Model):
     total_rows = models.IntegerField(default=10)
     total_columns = models.IntegerField(default=12)
     seat_layout = models.JSONField(default=dict, blank=True)
-    movie = models.ForeignKey(
-        "movies.Movie", on_delete=models.SET_NULL, null=True, blank=True
-    )
     bookings_open = models.BooleanField(default=False)
 
     def generate_seats(self, block_all=True):
@@ -33,7 +32,7 @@ class Screen(models.Model):
         """ Open bookings only if the poll decision is True """
         from apps.polls.models import Poll  # Import inside function to avoid circular import
 
-        poll = Poll.objects.filter(movie=self.movie).first()
+        poll = Poll.objects.filter(screen=self).first()
         if poll and poll.decision:
             layout = self.seat_layout
             for row in layout:

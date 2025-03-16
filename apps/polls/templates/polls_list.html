@@ -92,7 +92,7 @@
 
                             <!-- Book Now Button (Enabled if poll is approved) -->
                             <a class="w-100 btn {% if poll.decision %}btn-outline-primary{% else %}btn-outline-secondary disabled{% endif %} d-flex align-items-center mt-2"
-                               href="{% if poll.decision %}{% url 'movie-detail' poll.movie.id %}{% else %}#{% endif %}">
+                               href="{% if poll.decision %}{% url 'book-movie' poll.movie.id %}{% else %}#{% endif %}">
                                 <span class="me-1_5">Book Now</span><i class="ri-arrow-right-line ri-16px lh-1"></i>
                             </a>
                         </div>

@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
-bind = '0.0.0.0:5005'
+bind = '0.0.0.0:8080'
 workers = 1
 accesslog = '-'
-loglevel = 'debug'
+loglevel = 'info'
 capture_output = True
 enable_stdio_inheritance = True

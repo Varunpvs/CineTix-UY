@@ -9,9 +9,9 @@ class TheaterAdmin(admin.ModelAdmin):
 
 
 class ScreenAdmin(admin.ModelAdmin):
-    list_display = ('name', 'theater', 'total_rows', 'total_columns', 'movie', 'bookings_open')
-    list_filter = ('theater', 'movie', 'bookings_open')
-    search_fields = ('name', 'theater__name', 'movie__title')
+    list_display = ('name', 'theater', 'total_rows', 'total_columns', 'bookings_open')
+    list_filter = ('theater', 'bookings_open')
+    search_fields = ('name', 'theater__name')
     ordering = ('theater', 'name')
     actions = ['open_seat_booking']
 

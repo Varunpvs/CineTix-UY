@@ -3,7 +3,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}Movie Details - App{% endblock %}
+{% block title %}{{ movie.title }} - Book Tickets{% endblock %}
 
 {% block vendor_css %}
 {{ block.super }}
@@ -26,71 +26,90 @@
 {% endblock page_js %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-3">Book Tickets for {{ movie.title }}</h2>
+<div class="container mt-5 text-center">
+    <h1 class="display-4 text-uppercase font-weight-bold mb-4">✨ Book Your Seats for {{ movie.title }} ✨</h1>
 
-    <div class="mb-3">
-        <p><strong>Theater:</strong> {{ screen.theater.name }}</p>
-        <p><strong>Screen:</strong> {{ screen.name }}</p>
+    <div class=" my-4 p-4 rounded card shadow-none bg-secondary-subtle">
+        <p class="lead mb-2"><i class="fas fa-theater-masks"></i> <strong>Theater:</strong> {{ screen.theater.name }}</p>
+        <p class="lead mb-2"><i class="fas fa-video"></i> <strong>Screen:</strong> {{ screen.name }}</p>
     </div>
 
-    <div class="seat-container">
-        <div class="screen-label">SCREEN</div>
+    <div class="card p-5 shadow-lg">
+        <div class="screen-label mb-4" style="font-size: 1.6rem; background: linear-gradient(to right, #ffcc00, #ff9900); color: #222; padding: 12px 25px; border-radius: 12px; display: inline-block;">📽️ SCREEN</div>
         <div id="seat-map" class="seat-grid"></div>
-        <p class="mt-3"><strong>Selected Seats:</strong> <span id="selected-seats">None</span></p>
+        <p class="mt-4"><i class="fas fa-chair mr-2"></i> <strong>Selected Seats:</strong> <span id="selected-seats" style="font-weight: bold;">None</span></p>
     </div>
 
-    <form method="POST">
+    <form method="POST" class="mt-5">
         {% csrf_token %}
         <input type="hidden" name="selected_seats" id="selected-seats-input">
-        <button type="submit" class="btn btn-primary mt-3" id="book-btn" disabled>Book Now</button>
+        <button type="submit" class="btn btn-primary btn-lg px-5 py-3" id="book-btn" disabled style="background: linear-gradient(to right, #28a745, #218838); border: none; font-size: 1.2rem;">🎟️ Book Now</button>
     </form>
 </div>
 
 <style>
-    .seat-container {
-        text-align: center;
-        margin: 20px auto;
-    }
-    .screen-label {
-        font-size: 1.2rem;
-        font-weight: bold;
-        background: #444;
-        color: white;
-        padding: 5px;
-        width: 60%;
-        margin: auto;
-        border-radius: 5px;
+    body {
+        color: #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .seat-grid {
         display: grid;
-        grid-template-columns: repeat({{ screen.total_columns }}, 40px);
-        gap: 5px;
+        grid-template-columns: repeat({{ screen.total_columns }}, 60px);
+        gap: 12px;
         justify-content: center;
-        margin-top: 15px;
+        margin-top: 20px;
     }
     .seat {
-        width: 40px;
-        height: 40px;
-        background-color: #ccc;
+        width: 60px;
+        height: 60px;
+        background: #eee;
         text-align: center;
-        line-height: 40px;
-        border-radius: 5px;
+        line-height: 60px;
+        border-radius: 12px;
         cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
+        font-size: 18px;
+        font-weight: 600;
+        transition: transform 0.2s ease-in-out, background 0.2s ease-in-out;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        white-space: nowrap;
+        overflow: hidden; /* Prevent overflow */
+        text-overflow: ellipsis; /* Truncate text if needed */
+        min-width: 40px; /* Ensure a minimum width */
+        max-width: 60px; /* Ensure max width */
     }
     .seat:hover {
-        background-color: #77dd77;
+        background: #77dd77;
+        transform: scale(1.05);
     }
     .seat.selected {
-        background-color: #28a745 !important;
+        background: #28a745 !important;
         color: white;
     }
     .seat.booked {
-        background-color: #dc3545 !important;
+        background: #dc3545 !important;
         color: white;
         cursor: not-allowed;
+    }
+    .card {
+        margin: 0 auto;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    @media (max-width: 768px) {
+        .seat-grid {
+            grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+            gap: 6px; /* Reduce gap */
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 12px; /* Reduce font size */
+            padding: 0; /* Remove padding */
+            min-width: 30px; /* reduce min width */
+            max-width: 40px; /* reduce max width */
+        }
     }
 </style>
 
@@ -102,8 +121,6 @@
         const bookBtn = document.getElementById("book-btn");
 
         let selectedSeats = [];
-
-        // Seat layout from backend
         const seatLayout = {{ seat_layout|safe }};
 
         for (let row in seatLayout) {
@@ -123,17 +140,14 @@
                             seat.classList.add("selected");
                             selectedSeats.push(row + "-" + col);
                         }
-
                         selectedSeatsDisplay.innerText = selectedSeats.length > 0 ? selectedSeats.join(", ") : "None";
                         selectedSeatsInput.value = selectedSeats.join(",");
                         bookBtn.disabled = selectedSeats.length === 0;
                     });
                 }
-
                 seatMap.appendChild(seat);
             }
         }
     });
 </script>
-
 {% endblock content %}

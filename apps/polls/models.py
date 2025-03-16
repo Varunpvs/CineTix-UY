@@ -1,15 +1,16 @@
 from django.db import models
 from django.conf import settings
 
+from django.db import models
+from apps.movies.models import Movie
+from apps.theaters.models import Screen
+
 class Poll(models.Model):
     movie = models.OneToOneField(
-        "movies.Movie", on_delete=models.CASCADE, null=True, blank=True
-    )
-    theater = models.ForeignKey(
-        "theaters.Theater", on_delete=models.CASCADE, null=True, blank=True
+        Movie, on_delete=models.CASCADE, null=True, blank=True
     )
     screen = models.ForeignKey(
-        "theaters.Screen", on_delete=models.CASCADE, null=True, blank=True
+        Screen, on_delete=models.CASCADE, null=True, blank=True
     )
     yes_votes = models.PositiveIntegerField(default=0)
     threshold = models.PositiveIntegerField(default=50, help_text="Minimum votes required to approve movie")

@@ -25,49 +25,41 @@
 {% endblock page_js %}
 
 {% block content %}
-<div class="card">
-  <h5 class="card-header">My Bookings</h5>
-  <div class="table-responsive text-nowrap">
-       {% if bookings %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Movie</th>
-                <th>Theater</th>
-                <th>Screen</th>
-                <th>Seats</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for booking in bookings %}
-            <tr>
-                <td>{{ booking.movie.title }}</td>
-                <td>{{ booking.screen.theater.name }}</td>
-                <td>{{ booking.screen.name }}</td>
-                <td>{{ booking.seat_number|join:", " }}</td>
-                <td>
-                    {% if booking.status == "canceled" %}
-                        <span class="badge bg-danger">Canceled</span>
-                    {% else %}
-                        <span class="badge bg-success">Confirmed</span>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if booking.status != "canceled" %}
-                    <form method="POST" action="{% url 'cancel-booking' booking.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
-                    </form>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container mt-4">
+  <h3 class="text-center mb-4">My Bookings</h3>
+  <div class="row justify-content-center">
+    {% if bookings %}
+      {% for booking in bookings %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card mb-4 shadow-lg border-0 rounded-lg overflow-hidden">
+            <div class="card-header bg-gradient-primary text-white text-center py-3">
+              <h5 class="mb-0">{{ booking.movie.title }}</h5>
+            </div>
+            <div class="card-body text-center mt-5">
+              <p class="card-text"><strong>🎭 Theater:</strong> {{ booking.screen.theater.name }}</p>
+              <p class="card-text"><strong>🎬 Screen:</strong> {{ booking.screen.name }}</p>
+              <p class="card-text"><strong>🎟 Seats:</strong> {{ booking.seat_number|join:", " }}</p>
+              <p class="card-text">
+                {% if booking.status == "canceled" %}
+                  <span class="badge bg-danger px-3 py-2">Canceled</span>
+                {% else %}
+                  <span class="badge bg-success px-3 py-2">Confirmed</span>
+                {% endif %}
+              </p>
+              {% if booking.status != "canceled" %}
+                <form method="POST" action="{% url 'cancel-booking' booking.id %}" class="d-inline-block">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm px-3">Cancel Booking</button>
+                </form>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     {% else %}
-    <p>You have no bookings yet.</p>
+      <div class="col-12 text-center">
+        <p class="text-muted">🚫 You have no bookings yet.</p>
+      </div>
     {% endif %}
   </div>
 </div>

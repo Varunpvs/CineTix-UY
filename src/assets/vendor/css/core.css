@@ -2531,7 +2531,7 @@ progress {
 .form-control:focus {
   color: #433c50;
   background-color: transparent;
-  border-color: #c6abff;
+  border-color: #f5edb8;
   outline: 0;
   box-shadow: none;
 }
@@ -2678,7 +2678,7 @@ textarea.form-control-lg {
   }
 }
 .form-select:focus {
-  border-color: #c6abff;
+  border-color: #f5edb8;
   outline: 0;
   box-shadow: none;
 }

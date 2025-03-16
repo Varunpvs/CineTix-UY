@@ -1,21 +1,19 @@
-FROM python:3.12
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim
 
-ARG APP_HOME=/app
-WORKDIR ${APP_HOME}
+# Set the working directory
+WORKDIR /app
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-COPY requirements.txt ${APP_HOME}
-# install python dependencies
-RUN pip install --upgrade pip
+# Copy and install dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . ${APP_HOME}
+# Copy the project files
+COPY . .
 
-# running migrations
-RUN python manage.py migrate
+# Expose port
+EXPOSE 8080
 
-# gunicorn
-CMD ["gunicorn", "--config", "gunicorn-cfg.py", "config.wsgi"]
+# Command to run the application
+CMD ["gunicorn", "-c", "gunicorn-cfg.py", "config.wsgi"]
+

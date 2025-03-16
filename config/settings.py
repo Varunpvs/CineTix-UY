@@ -35,7 +35,7 @@ DEBUG = os.environ.get("DEBUG", 'True').lower() in ['true', 'yes', '1']
 
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 
 # Current DJANGO_ENVIRONMENT
 ENVIRONMENT = os.environ.get("DJANGO_ENVIRONMENT", default="local")
@@ -51,34 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "apps.dashboards",
-    "apps.layouts",
-    "apps.front_pages",
-    "apps.mail",
-    "apps.chat",
-    "apps.my_calendar",
-    "apps.kanban",
-    "apps.ecommerce",
-    "apps.academy",
-    "apps.logistics",
-    "apps.invoice",
-    "apps.users",
-    "apps.access",
     "apps.pages",
-    "apps.authentication",
-    "apps.wizard_examples",
-    "apps.modal_examples",
-    "apps.cards",
-    "apps.ui",
-    "apps.extended_ui",
-    "apps.icons",
-    "apps.forms",
-    "apps.form_layouts",
-    "apps.form_wizard",
-    "apps.form_validation",
-    "apps.tables",
-    "apps.charts",
-    "apps.maps",
-    "apps.transactions",
     "auth.apps.AuthConfig",
     "apps.bookings",
     "apps.theaters",
@@ -240,7 +213,7 @@ SESSION_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_AGE = 3600
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5050",
+    "http://localhost:5050", "https://cinetix-291011069674.us-central1.run.app"
 ]
 
 
@@ -250,3 +223,5 @@ CSRF_TRUSTED_ORIGINS = [
 TWILIO_ACCOUNT_SID = 'ACc2ea04674fa603365ceaf9c6cd4addfe'
 TWILIO_AUTH_TOKEN = 'e1d6588c7c98fed35687e8097ca56062'
 TWILIO_PHONE_NUMBER = '+14236169990'
+
+
