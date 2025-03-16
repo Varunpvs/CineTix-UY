@@ -220,8 +220,4 @@ CSRF_TRUSTED_ORIGINS = [
 # Your stuff...
 # ------------------------------------------------------------------------------
 
-TWILIO_ACCOUNT_SID = 'ACc2ea04674fa603365ceaf9c6cd4addfe'
-TWILIO_AUTH_TOKEN = 'e1d6588c7c98fed35687e8097ca56062'
-TWILIO_PHONE_NUMBER = '+14236169990'
-
 
